@@ -28,15 +28,24 @@ interface Validacion{
 }
 
 class Aspirante{
-	//folio
+	private int folio;
 	private String Nombre;
 	private byte edad;
 	private String redesSociales[];
 	
-	public Aspirante(String nombre, byte edad, String[] redesSociales) {
+	public Aspirante(int folio, String nombre, byte edad, String[] redesSociales) {
+		this.folio = folio;
 		Nombre = nombre;
 		this.edad = edad;
 		this.redesSociales = redesSociales;
+	}
+	
+	
+	public int getFolio() {
+		return folio;
+	}
+	public void setFolio(int folio) {
+		this.folio = folio;
 	}
 	public String getNombre() {
 		return Nombre;
@@ -56,12 +65,15 @@ class Aspirante{
 	public void setRedesSociales(String[] redesSociales) {
 		this.redesSociales = redesSociales;
 	}
+
+
 	
 	@Override
 	public String toString() {
-		return "Aspirante [Nombre=" + Nombre + ", edad=" + edad + ", redesSociales=" + Arrays.toString(redesSociales)
-				+ "]";
+		return "Aspirante [folio=" + folio + ", Nombre=" + Nombre + ", edad=" + edad + ", redesSociales="
+				+ Arrays.toString(redesSociales) + "]";
 	}
+	
 	
 }//class Aspirante
 
@@ -69,9 +81,7 @@ class Aspirante{
 class RegistroAspirantes implements Validacion{
 	
 	ArrayList listaAspirantes;
-	private int nFolio;
-	
-	
+	private int nFolio=1;
 	
 	public int getnFolio() {
 		return nFolio;
@@ -84,15 +94,16 @@ class RegistroAspirantes implements Validacion{
 		listaAspirantes = new ArrayList();
 	}
 	public void agregarAspirante(Aspirante a) {
+		this.setnFolio(this.getnFolio()+1);
 		listaAspirantes.add(a);
 	}
 	public Object eliminarAspirante(String folio) {
-		//eliminacion del ultimo aspirante
+		this.setnFolio(this.getnFolio()-1);
 		return listaAspirantes.remove(listaAspirantes.size()-1);
 	}
 	public void mostrarAspirantes() {
 		//Recorrido de un ARRAYLIST
-		System.out.println("----Forma 1 con un objeto ITERATOR--------");
+		//System.out.println("----Forma 1 con un objeto ITERATOR--------");
 		Iterator i = listaAspirantes.iterator();
 		while(i.hasNext()) {
 			Aspirante a = (Aspirante) i.next();
@@ -104,11 +115,15 @@ class RegistroAspirantes implements Validacion{
 public class PruebaMemoriaDinamica {
 	public static void main(String[] args) {
 		
-		RegistroAspirantes ra = new RegistroAspirantes();
-		String redes[] = {"FB", "TW", "IG"};
-		ra.agregarAspirante(new Aspirante("1", (byte)1, redes));
-		int opc=0;
+		Scanner input = new Scanner(System.in);
 		
+		RegistroAspirantes ra = new RegistroAspirantes();
+		//ra.agregarAspirante(new Aspirante("1", (byte)1, redes));
+		String nombre;
+		String folio = null;
+		int opc=0;
+		int edad=0;
+
 		do {
 			System.out.println("1)Agregar aspirante \n"
 					+ "2)Eliminar aspitante \n"
@@ -117,12 +132,32 @@ public class PruebaMemoriaDinamica {
 			opc = Validacion.validacionNatural();
 			switch (opc) {
 			case 1:
+				String redes[]=new String[3];
+				System.out.println("nombre: ");
+				nombre = input.nextLine();
+				System.out.println("edad: ");
+				edad = Validacion.validacionNatural();
+				System.out.println("Facebook: ");
+				redes[0]=input.nextLine();
+				System.out.println("Twitter: ");
+				redes[1]=input.nextLine();
+				System.out.println("Instagram: ");
+				redes[2]=input.nextLine();
+				
+				if (ra.listaAspirantes.isEmpty()) {
+					ra.agregarAspirante(new Aspirante(1,nombre, (byte)edad, redes));
+				}else {
+					ra.agregarAspirante(new Aspirante(ra.getnFolio(), nombre, (byte)edad, redes));
+				}
 				break;
 			case 2:
+				ra.eliminarAspirante(folio);
 				break;
 			case 3:
+				ra.mostrarAspirantes();
 				break;
-			case 4:break;
+			case 4:
+				break;
 			default:
 				System.out.println("opción no válida");
 				break;
