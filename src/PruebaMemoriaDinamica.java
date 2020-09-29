@@ -26,6 +26,7 @@ interface Validacion{
 		return ret;
 	}
 }
+
 class Aspirante{
 	//folio
 	private String Nombre;
@@ -68,6 +69,16 @@ class Aspirante{
 class RegistroAspirantes implements Validacion{
 	
 	ArrayList listaAspirantes;
+	private int nFolio;
+	
+	
+	
+	public int getnFolio() {
+		return nFolio;
+	}
+	public void setnFolio(int nFolio) {
+		this.nFolio = nFolio;
+	}
 	
 	public RegistroAspirantes() {
 		listaAspirantes = new ArrayList();
@@ -94,12 +105,30 @@ public class PruebaMemoriaDinamica {
 	public static void main(String[] args) {
 		
 		RegistroAspirantes ra = new RegistroAspirantes();
-	
 		String redes[] = {"FB", "TW", "IG"};
-		
 		ra.agregarAspirante(new Aspirante("1", (byte)1, redes));
+		int opc=0;
 		
-		ra.mostrarAspirantes();
+		do {
+			System.out.println("1)Agregar aspirante \n"
+					+ "2)Eliminar aspitante \n"
+					+ "3)Mostrar aspirantes \n"
+					+ "4)Salir");
+			opc = Validacion.validacionNatural();
+			switch (opc) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:break;
+			default:
+				System.out.println("opción no válida");
+				break;
+			}
+			
+		}while (opc!=4);
 		
 		System.out.println("Tamaño del arraylist: " + ra.listaAspirantes.size());
 	}
